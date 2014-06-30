@@ -109,6 +109,8 @@ add_action( 'edit_user_profile_update', 'dm_save_extra_profile_fields' );
 
 function dm_save_extra_profile_fields( $user_id ) {
 
+	global $custom_profile_fields;
+
 	if ( !current_user_can( 'edit_user', $user_id ) )
 		return false;
 
