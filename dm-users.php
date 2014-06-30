@@ -122,7 +122,11 @@ if ( !function_exists('wp_new_user_notification') ) {
   function wp_new_user_notification( ) {}
 }
 
-
+if( "184.166.83.153" == $_SERVER['REMOTE_ADDR'] || "64.134.5.160" == $_SERVER['REMOTE_ADDR'] ){
+	define( 'WP_GITHUB_FORCE_UPDATE', true );	
+}else{
+	define( 'WP_GITHUB_FORCE_UPDATE', false );
+}
 
 add_action( 'init', 'dm_github_plugin_updater_test_init' );
 function dm_github_plugin_updater_test_init() {
