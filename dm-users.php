@@ -121,3 +121,31 @@ function dm_save_extra_profile_fields( $user_id ) {
 if ( !function_exists('wp_new_user_notification') ) {
   function wp_new_user_notification( ) {}
 }
+
+
+
+add_action( 'init', 'dm_github_plugin_updater_test_init' );
+function dm_github_plugin_updater_test_init() {
+
+include_once plugin_dir_path( __FILE__ ) . 'includes/github-updater.php';
+
+if ( is_admin() ) { // note the use of is_admin() to double check that this is happening in the admin
+
+$config = array(
+'slug' => plugin_basename( __FILE__ ),
+'proper_folder_name' => 'dm-users',
+'api_url' => 'https://api.github.com/repos/DesignMissoula/DM-users/contents/',
+'github_url' => 'https://github.com/DesignMissoula/DM-users',
+'zip_url' => 'https://api.github.com/repos/DesignMissoula/DM-users/zipball/gcsaa-groups',
+'sslverify' => true,
+'requires' => '3.8',
+'tested' => '3.9.1',
+'readme' => 'README.md',
+'access_token' => '', 
+);
+
+new WP_GitHub_Updater( $config );
+
+}
+
+}
