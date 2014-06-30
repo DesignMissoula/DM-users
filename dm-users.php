@@ -5,7 +5,7 @@ Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
 Description: This is not just a plugin, it makes WordPress better.
 Author: Bradford Knowlton
-Version: 1.6.2
+Version: 1.6.3
 Author URI: http://bradknowlton.com/
 */
 
