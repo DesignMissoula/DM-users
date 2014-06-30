@@ -5,13 +5,14 @@ Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend of WordPress.
 Author: Bradford Knowlton
-Version: 1.7.0
+Version: 1.7.1
 Author URI: http://bradknowlton.com/
 */
 
 $custom_profile_fields = array(
 	// 'First name' => array('replacement' => 'first_name', 'process' => null ),
 	// 'Last name' => array('replacement' => 'last_name', 'process' => null ),
+	'Position Title' => array('replacement' => 'position_title', 'process' => null ),
 	'Course Company' => array('replacement' => 'course_company', 'process' => null ),
 	'Prefer address 1' => array('replacement' => 'primary_address_1', 'process' => null ),
 	'Prefer address 2' => array('replacement' => 'primary_address_2', 'process' => null ),
@@ -25,7 +26,6 @@ $custom_profile_fields = array(
 	// 'email address' => array('replacement' => 'user_email', 'process' => 'fake_email' ),
 	'Member class' => array('replacement' => 'member_class', 'process' => null, 'private' => true ),
 	'Member number' => array('replacement' => 'member_number', 'process' => 'clean_number', 'private' => true ),
-	'Position Title' => array('replacement' => 'position_title', 'process' => null ),
 	'Course type' => array('replacement' => 'course_type', 'process' => null ),
 	'Number of holes' => array('replacement' => 'number_of_holes', 'process' => 'clean_number' ),
 	'Pesticide license' => array('replacement' => 'pesticide_license', 'process' => null ),
@@ -64,8 +64,6 @@ $custom_profile_fields = array(
 	'Premium Member' => array('replacement' => 'premium_member', 'process' => 'premium_member', 'private' => true ),
 );
 
-
-
 add_action( 'show_user_profile', 'dm_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'dm_show_extra_profile_fields' );
 
@@ -75,9 +73,7 @@ function dm_show_extra_profile_fields( $user ) {
 
 	if ( current_user_can( 'manage_options' ) ) {
 		/* A user with admin privileges */
-
 ?>
-
 	<h3>Extra profile information</h3>
 
 	<table class="form-table">
