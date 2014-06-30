@@ -26,10 +26,7 @@ foreach($blogusers as $user){
     	$html .= 'Cell: '.(($user->cell_phone)?''.format_phone($user->cell_phone)."\t":'Not Provided'."\t").((trim($user->fax_number))?'Fax: '.format_phone($user->fax_number):'')."\n";
     	
     	// setup base email
-    	
-    	$base_url = get_site_url();
-    	
-    	$domain = str_ireplace('www.', '', parse_url($url, PHP_URL_HOST));
+    	$domain = str_ireplace('www.', '', parse_url(get_site_url(), PHP_URL_HOST));
     	
     	$html .= (!stristr($user->user_email, '@'.$domain))?''.$user->user_email."\n":'';
     	// $html .= ''.$user->user_email."\n";
