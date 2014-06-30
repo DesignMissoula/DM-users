@@ -270,38 +270,6 @@ class WP_GitHub_Updater {
 
 		$raw_response = wp_remote_get( $query, $args );
 		
-		global $wpdb;
-		
-		if(is_wp_error( $response )){
-			$wpdb->insert( 
-			$wpdb->prefix.'selway_log', 
-				array( 
-					'user' => '3', 
-					'action' => 'GitHub Remote Get',
-					'message' => 'Request: '.$query.' Results: '.$response->get_error_message().''
-				), 
-				array( 
-					'%d', 
-					'%s', 
-					'%s',  
-				) 
-			);
-		}else{
-			$wpdb->insert( 
-			$wpdb->prefix.'selway_log', 
-				array( 
-					'user' => '3', 
-					'action' => 'GitHub Remote Get',
-					'message' => 'Request: '.$query.' Results: '.$raw_response['response']['code']
-				), 
-				array( 
-					'%d', 
-					'%s', 
-					'%s',  
-				) 
-			);
-		}
-		
 		return $raw_response;
 	}
 	
@@ -324,41 +292,9 @@ class WP_GitHub_Updater {
 
 		$raw_response = wp_remote_get( $query, $args );
 		
-		global $wpdb;
-		
 		$filtered_response = $raw_response;
 		
 		unset($filtered_response['body']);
-		
-		if(is_wp_error( $response )){
-			$wpdb->insert( 
-			$wpdb->prefix.'selway_log', 
-				array( 
-					'user' => '3', 
-					'action' => 'GitHub Remote API Get',
-					'message' => 'Request: '.$query.' Results: '.$response->get_error_message().''
-				), 
-				array( 
-					'%d', 
-					'%s', 
-					'%s',  
-				) 
-			);
-		}else{
-			$wpdb->insert( 
-			$wpdb->prefix.'selway_log', 
-				array( 
-					'user' => '3', 
-					'action' => 'GitHub Remote API Get',
-					'message' => 'Request: '.$query.' Results: '.$raw_response['response']['code']
-				), 
-				array( 
-					'%d', 
-					'%s', 
-					'%s',  
-				) 
-			);
-		}
 		
 		$json_decoded = json_decode($raw_response['body']);
 		
@@ -515,7 +451,6 @@ class WP_GitHub_Updater {
 	public function upgrader_post_install( $true, $hook_extra, $result ) {
 
 		global $wp_filesystem;
-		global $wpdb;
 		
 		if( isset($this->config['slug']) && $hook_extra['plugin'] && $this->config['slug'] == $hook_extra['plugin'] ){
 			// Move & Activate
@@ -528,20 +463,6 @@ class WP_GitHub_Updater {
 			$fail  = __( 'The plugin has been updated, but could not be reactivated. Please reactivate it manually.', 'github_plugin_updater' );
 			$success = __( 'Plugin moved and reactivated successfully.', 'github_plugin_updater' );
 			echo is_wp_error( $activate ) ? $fail : $success;
-			
-			$wpdb->insert( 
-			$wpdb->prefix.'selway_log', 
-				array( 
-					'user' => get_current_user_id(), 
-					'action' => 'Plugin Version Update',
-					'message' => 'Previous Version: '.$this->config['version'].' Updated Version: '.$this->config['new_version']
-				), 
-				array( 
-					'%d', 
-					'%s', 
-					'%s',  
-				) 
-			);
 			
 			return $result;
 		}
