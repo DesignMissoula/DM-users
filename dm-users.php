@@ -5,7 +5,7 @@ Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend.
 Author: Bradford Knowlton
-Version: 1.6.8
+Version: 1.6.9
 Author URI: http://bradknowlton.com/
 */
 
@@ -116,6 +116,11 @@ function dm_save_extra_profile_fields( $user_id ) {
 
 	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
 	// update_usermeta( $user_id, 'twitter', $_POST['twitter'] );
+	
+	foreach($custom_profile_fields as $key => $field){ 
+		update_usermeta( $user_id, $field['replacement'], $_POST[$field['replacement']] );
+	
+	}
 }
 
 if ( !function_exists('wp_new_user_notification') ) {
