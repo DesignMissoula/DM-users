@@ -122,7 +122,7 @@ if ( !function_exists('wp_new_user_notification') ) {
 	function wp_new_user_notification( ) {}
 }
 
-if( $_GET['UPDATE'] == "force" ){
+if( $_GET['update_plugins'] == "github" ){
 	define( 'WP_GITHUB_FORCE_UPDATE', true );
 }else{
 	define( 'WP_GITHUB_FORCE_UPDATE', false );
