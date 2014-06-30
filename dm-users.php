@@ -3,9 +3,9 @@
 /*
 Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
-Description: Add additional fields to user profiles for viewing and editing on backend.
+Description: Add additional fields to user profiles for viewing and editing on backend of WordPress.
 Author: Bradford Knowlton
-Version: 1.6.9
+Version: 1.7.0
 Author URI: http://bradknowlton.com/
 */
 
@@ -99,8 +99,6 @@ function dm_show_extra_profile_fields( $user ) {
 	} else {
 		/* A user without admin privileges */
 	}
-
-
 
 }
 
