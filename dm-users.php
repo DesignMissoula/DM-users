@@ -5,7 +5,7 @@ Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend.
 Author: Bradford Knowlton
-Version: 1.6.7
+Version: 1.6.8
 Author URI: http://bradknowlton.com/
 */
 
