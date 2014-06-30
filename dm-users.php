@@ -133,7 +133,7 @@ if ( is_admin() ) { // note the use of is_admin() to double check that this is h
 
 $config = array(
 'slug' => plugin_basename( __FILE__ ),
-'proper_folder_name' => 'dm-users',
+'proper_folder_name' => 'DM-users',
 'api_url' => 'https://api.github.com/repos/DesignMissoula/DM-users/contents/',
 'github_url' => 'https://github.com/DesignMissoula/DM-users',
 'zip_url' => 'https://api.github.com/repos/DesignMissoula/DM-users/zipball/gcsaa-groups',
