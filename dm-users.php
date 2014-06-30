@@ -5,7 +5,7 @@ Plugin Name: DM User Custom Profiles
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend.
 Author: Bradford Knowlton
-Version: 1.6.6
+Version: 1.6.7
 Author URI: http://bradknowlton.com/
 */
 
@@ -128,8 +128,9 @@ if( $_GET['update_plugins'] == "github" ){
 	define( 'WP_GITHUB_FORCE_UPDATE', false );
 }
 
-add_action( 'init', 'dm_github_plugin_updater_test_init' );
-function dm_github_plugin_updater_test_init() {
+add_action( 'init', 'dm_github_plugin_updater_users_init' );
+
+function dm_github_plugin_updater_users_init() {
 
 	include_once plugin_dir_path( __FILE__ ) . 'includes/github-updater.php';
 
