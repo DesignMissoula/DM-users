@@ -145,7 +145,8 @@ function dm_github_plugin_updater_test_init() {
 			'requires' => '3.8',
 			'tested' => '3.9.1',
 			'readme' => 'README.md',
-			'access_token' => '',
+			'access_token' => '', 
+			'branch' => 'gcsaa-groups',
 		);
 
 		new WP_GitHub_Updater( $config );

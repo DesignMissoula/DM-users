@@ -210,7 +210,7 @@ class WP_GitHub_Updater {
 
 		if ( $this->overrule_transients() || ( !isset( $version ) || !$version || '' == $version ) ) {
 
-			$raw_response = $this->remote_api_get( trailingslashit( $this->config['api_url'] ). basename( $this->config['slug'] ) );
+			$raw_response = $this->remote_api_get( trailingslashit( $this->config['api_url'] ). basename( $this->config['slug'] ).(($this->config['branch'])?'?ref='.$this->config['branch']:'') );
 
 			if ( is_wp_error( $raw_response ) )
 				$version = false;
@@ -227,7 +227,7 @@ class WP_GitHub_Updater {
 
 			if( ! $version ){
 				// back compat for older readme version handling
-				$raw_response = $this->remote_api_get( trailingslashit( $this->config['api_url'] ) . $this->config['readme'] );
+				$raw_response = $this->remote_api_get( trailingslashit( $this->config['api_url'] ) . $this->config['readme'].(($this->config['branch'])?'?ref='.$this->config['branch']:'') );
 	
 				if ( is_wp_error( $raw_response ) )
 					return $version;
@@ -318,7 +318,7 @@ class WP_GitHub_Updater {
 
 			// $this->overrule_transients() ||
 			if ( $this->overrule_transients() || ( ! isset( $github_data ) || ! $github_data || '' == $github_data ) ) {
-				$github_data = $this->remote_get( $this->config['api_url'] );
+				$github_data = $this->remote_get( $this->config['api_url'].(($this->config['branch'])?'?ref='.$this->config['branch']:'') );
 
 				if ( is_wp_error( $github_data ) )
 					return false;
