@@ -4,7 +4,7 @@
 Plugin Name: DM Users
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend of WordPress.
-Version: 1.7.3
+Version: 1.7.6
 Author: Bradford Knowlton
 Author URI: http://bradknowlton.com/
 License:           GNU General Public License v2
@@ -126,3 +126,17 @@ function dm_save_extra_profile_fields( $user_id ) {
 if ( !function_exists('wp_new_user_notification') ) {
 	function wp_new_user_notification( ) {}
 }
+
+
+
+function my_admin_notification_profile_update($userid) {
+
+	$admin = get_user_by( 'login', '2urEdrUd' );
+
+    $userdata = get_userdata($userid);
+    $message = "A user profile has been updated\n\n";
+    $message .= print_r($userdata,true);
+    @wp_mail($admin->user_email, '['.get_bloginfo('name').'] User Profile Update', $message);
+
+}
+add_action('profile_update','my_admin_notification_profile_update');
