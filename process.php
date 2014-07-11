@@ -1,5 +1,7 @@
 <?php
 
+include '../../../wp-load.php';
+
 // tasks:
 // 'IEGCSA Dir' => array('replacement' => 'iegcsa_dir', 'process' => null, 'private' => true ),
 
@@ -84,8 +86,8 @@ function process_csv( $input_file, $output_file ){
 	global $original_data;
 	
 	$process_rules = array(
-		'First name' => array('replacement' => 'first_name', 'process' => null ),
-		'Last name' => array('replacement' => 'last_name', 'process' => null ),
+		'First name' => array('replacement' => 'first_name', 'process' => 'clean_name' ),
+		'Last name' => array('replacement' => 'last_name', 'process' => 'clean_name' ),
 		'Course Company' => array('replacement' => 'course_company', 'process' => null ),
 		'Prefer address 1' => array('replacement' => 'primary_address_1', 'process' => 'clean_address' ),
 		'Prefer address 2' => array('replacement' => 'primary_address_2', 'process' => null ),
@@ -108,8 +110,9 @@ function process_csv( $input_file, $output_file ){
 		'Services offered' => array('replacement' => 'services_offered', 'process' => 'services_offered_clean' ),
 		'Membership date' => array('replacement' => 'membership_date', 'process' => null ),
 		'IDGCSA Dir' => array('replacement' => 'idgcsa_dir', 'process' => null ),
-		'Miscellaneous' => array('replacement' => 'miscellaneous', 'process' => null ),
-		'Second address 1' => array('replacement' => 'secondary_address_1', 'process' => null ),
+		'Miscellaneous' => array('replacement' => 'miscellaneous', 'process' => 'clean_multi_line' ),
+		'Misc info' => array('replacement' => 'miscellaneous', 'process' => 'clean_multi_line' ),
+		'Second address 1' => array('replacement' => 'secondary_address_1', 'process' => 'clean_address' ),
 		'Second address 2' => array('replacement' => 'secondary_address_2', 'process' => null ),
 		'Second city' => array('replacement' => 'secondary_city', 'process' => null ),
 		'Second state' => array('replacement' => 'secondary_state', 'process' => null ),
@@ -265,11 +268,19 @@ function clean_phone_number($phone){
 	
 	// $phone = preg_replace('/\D/', '', $phone);
 	
-	$find = array('(',') ','-');
+	$find = array('(',') ',')','-','.', 'Cell:', 'cell:', 'Cell', 'cell','Home:','Home','home:','home','Fax:','fax:','Fax','fax');
 	
 	$replace = "";
 	
 	$phone = str_replace($find, $replace, $phone);
+	
+	
+	$find = array("\r\n","\r","\n",PHP_EOL,'  ');
+	$replace = ' ';
+	
+	$phone = str_replace($find, $replace, $phone);
+	$phone = str_replace($find, $replace, $phone);
+	
 	
 	return $phone;
 }
@@ -315,14 +326,16 @@ function display_name($data){
 function clean_email($email){
 	global $row;
 	
-	$email = str_replace('e','', $email);
+	$email = str_replace(' e','', $email);
 	
 	$email = trim($email);
+	
+	$domain = str_ireplace('www.', '', parse_url(get_site_url(), PHP_URL_HOST));
 	
 	if( filter_var($email, FILTER_VALIDATE_EMAIL) ){
 		return $email;
 	}else{
-		return substr(md5($email.$row),0,8)."@idahogcsa.org";
+		return substr(md5($email.$row),0,8).'@'.$domain;
 	}
 	
 }
@@ -336,8 +349,41 @@ function preferred_address($data){
 	return "false";
 }
 
+function clean_name($name){
+
+	$find = array("\r\n","\r","\n",PHP_EOL,'  ');
+	$replace = ' ';
+	
+	$name = str_replace($find, $replace, $name);
+	
+	$name = str_replace($find, $replace, $name);
+
+	return trim($name);
+}
+
+
+function clean_multi_line($lines){
+
+	$find = array("\r\n","\r","\n",PHP_EOL,'  ');
+	$replace = ' ';
+	
+	$lines = str_replace($find, $replace, $lines);
+	
+	$lines = str_replace($find, $replace, $lines);
+
+	return trim($lines);
+}
+
 function clean_address($address){
-	return trim($address,'*');
+
+	$find = array("\r\n","\r","\n",PHP_EOL,'  ');
+	$replace = ' ';
+	
+	$address = str_replace($find, $replace, $address);
+	
+	$address = str_replace($find, $replace, $address);
+
+	return trim(trim($address,'*'));
 }
 
 function premium_member($data){
@@ -374,7 +420,7 @@ function clean_pesticide($pesticide){
 	// $pesticide = str_replace('pesticide','',$pesticide);
 	// $pesticide = str_replace('Pesticide','',$pesticide);
 	
-	$find = array('pesticide:','Pesticide:','pesticide','Pesticide','Pesticide license:','Pesticide License:', 'Pesticide license', 'Pesticide license:', 'pesticide license:', 'pesticide license');
+	$find = array('Pesticide License:', 'pesticide:','Pesticide:','pesticide','Pesticide','Pesticide license:','Pesticide License:', 'Pesticide license', 'Pesticide license:', 'pesticide license:', 'pesticide license');
 	
 	$replace = "";
 	
