@@ -37,7 +37,7 @@ if ( isset($_POST["submit"]) ) {
              }
 
                  //if file already exists
-             if (file_exists("temp/" . $storagename)) {
+             if (file_exists("./temp/" . $storagename)) {
             echo $_FILES["file"]["name"] . " already exists. ";
              }
              else {
@@ -46,9 +46,9 @@ if ( isset($_POST["submit"]) ) {
             // move_uploaded_file($_FILES["file"]["tmp_name"], "temp/" . $storagename);
             // echo "Stored in: " . "temp/" . $storagename . "<br />";
             
-            process_csv($_FILES["file"]["tmp_name"], "temp/" . $storagename );
+            process_csv($_FILES["file"]["tmp_name"], "./temp/" . $storagename );
             
-            echo "Download Processed File in: <a href='/temp/" . $storagename . "'>" . "temp/" . $storagename . "</a><br />";
+            echo "Download Processed File in: <a href='./temp/" . $storagename . "'>" . "./temp/" . $storagename . "</a><br />";
             
             }
         }
