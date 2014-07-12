@@ -4,7 +4,7 @@
 Plugin Name: DM Users
 Plugin URI: http://www.designmissoula.com/
 Description: Add additional fields to user profiles for viewing and editing on backend of WordPress.
-Version: 2.0.2
+Version: 2.0.3
 Author: Bradford Knowlton
 Author URI: http://bradknowlton.com/
 License:           GNU General Public License v2

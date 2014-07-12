@@ -88,10 +88,10 @@ function process_csv( $input_file, $output_file ){
 	$process_rules = array(
 		'First name' => array('replacement' => 'first_name', 'process' => 'clean_name' ),
 		'Last name' => array('replacement' => 'last_name', 'process' => 'clean_name' ),
-		'Course Company' => array('replacement' => 'course_company', 'process' => null ),
+		'Course Company' => array('replacement' => 'course_company', 'process' => 'clean_name' ),
 		'Prefer address 1' => array('replacement' => 'primary_address_1', 'process' => 'clean_address' ),
 		'Prefer address 2' => array('replacement' => 'primary_address_2', 'process' => null ),
-		'Prefer city' => array('replacement' => 'primary_city', 'process' => null ),
+		'Prefer city' => array('replacement' => 'primary_city', 'process' => 'clean_name' ),
 		'Prefer state' => array('replacement' => 'primary_state', 'process' => null ),
 		'Prefer zip' => array('replacement' => 'primary_zip', 'process' => 'clean_zip_code' ),
 		'Work tele 1' => array('replacement' => 'work_tele_1', 'process' => 'clean_phone_number' ),
@@ -351,6 +351,8 @@ function preferred_address($data){
 
 function clean_name($name){
 
+	$name = convert_smart_quotes($name);
+
 	$find = array("\r\n","\r","\n",PHP_EOL,'  ');
 	$replace = ' ';
 	
@@ -448,4 +450,22 @@ function services_offered_clean($services_offered){
 	
 	
 	return trim($services_offered);
+}
+
+
+function convert_smart_quotes($string) 
+{ 
+    $search = array(chr(145), 
+                    chr(146), 
+                    chr(147), 
+                    chr(148), 
+                    chr(151)); 
+
+    $replace = array("'", 
+                     "'", 
+                     '"', 
+                     '"', 
+                     '-'); 
+
+    return str_replace($search, $replace, $string); 
 }
